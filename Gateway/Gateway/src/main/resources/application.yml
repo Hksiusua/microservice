@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: course
+          uri: lb://course
+          predicates:
+            - Path=/course/**
+        - id: student
+          uri: lb://student
+          predicates:
+            - Path=/student/** # Adjust the path as needed
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/users/**, /auth/**
+logging:
+  level:
+    root: info
