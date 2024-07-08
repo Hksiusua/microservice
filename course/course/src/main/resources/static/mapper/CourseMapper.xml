@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.course.mapper.CourseMapper">
+    <resultMap id="courseEMap" type="com.example.course.entity.CourseE">
+        <id property="idCourse" column="idCourse"/>
+        <result property="courseName" column="courseName"/>
+        <result property="dateStart" column="dateStart"/>
+        <result property="dateEnd" column="dateEnd"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <select id="getCourse" resultMap="courseEMap" parameterType="com.example.course.dto.CourseDto">
+        SELECT s.idCourse, s.courseName, s.description, s.dateStart, s.dateEnd FROM course s
+        WHERE 1 = 1
+            <if test="courseName != null and courseName != ''">
+                AND s.courseName = #{courseName}
+            </if>
+
+
+    </select>
+
+
+
+</mapper>
