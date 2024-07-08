@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.user.mapper.RoleMapper">
+    <resultMap id="roleEMap" type="com.example.user.entity.RoleE">
+        <id property="idRole" column="idRole"/>
+        <result property="nameRole" column="nameRole"/>
+    </resultMap>
+<!--    <select id="getAllRole" resultMap="roleEMap" parameterType="com.example.user.dto.RoleDto">-->
+<!--        SELECT s.nameRole FROM role s-->
+<!--        where 1=1-->
+<!--        <if test="nameRole != null">-->
+<!--            AND s.nameRole = #{nameRole}-->
+<!--        </if>-->
+<!--    </select>-->
+</mapper>

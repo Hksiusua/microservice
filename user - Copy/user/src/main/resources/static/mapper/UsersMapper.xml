@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.user.mapper.UsersMapper">
+    <resultMap id="usersEMap" type="com.example.user.entity.UsersE">
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="username_display" property="userNameDisPlay"/>
+        <result column="img" property="img"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="password" property="password"/>
+        <result column="is_active" property="isActive"/>
+        <result column="role_id" property="roles"/>
+    </resultMap>
+
+
+    <resultMap id="usersEMap2" type="com.example.user.entity.UsersE">
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="username_display" property="userNameDisPlay"/>
+        <result column="img" property="img"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="password" property="password"/>
+        <result column="is_active" property="isActive"/>
+        <result column="role_id" property="roles"/>
+        <result column="role_name" property="role_name"/>
+    </resultMap>
+    <select id="getAllUsers" resultMap="usersEMap2" parameterType="com.example.user.dto.UsersDto">
+        SELECT *
+        FROM sys_user s
+        WHERE 1=1
+        <if test="username != null">
+            AND s.username = #{username}
+        </if>
+    </select>
+
+
+    <select id="getUserLogin" resultMap="usersEMap" parameterType="com.example.user.dto.UsersDto">
+        SELECT
+        u.user_id,
+        u.username,
+        u.username_display,
+        u.img,
+        u.password,
+        u.role_id,
+        r.role_name
+        FROM sys_user u
+        LEFT JOIN sys_role r ON u.role_id = r.role_id
+        WHERE u.username = #{username}
+    </select>
+
+
+
+
+    <select id="kiemTraTonTaiUsers" resultType="boolean"
+            parameterType="com.example.user.dto.UsersDto">
+        SELECT EXISTS (
+            SELECT 1
+            FROM sys_user u
+            WHERE 1 = 1
+              AND u.username = #{username}
+        )
+    </select>
+
+
+<!--    <insert id="insertUsers" parameterType="com.example.user.dto.UsersDto">-->
+<!--        INSERT INTO sys_user (username, username_display, img, phone_number, password, is_active, role_id)-->
+<!--        VALUES (#{username}, #{userNameDisPlay}, #{img}, #{phoneNumber}, #{password}, #{isActive}, #{roles})-->
+<!--    </insert>-->
+    <insert id="insertUsers" parameterType="com.example.user.dto.UsersDto" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO sys_user (username, username_display, img, phone_number, password, role_id)
+        VALUES (#{username}, #{userNameDisPlay}, #{img}, #{phoneNumber}, #{password}, #{roles})
+    </insert>
+
+
+
+    <update id="updateUsers" parameterType="com.example.user.dto.UsersDto">
+        UPDATE sys_user
+        SET username = #{username},
+            username_display = #{userNameDisPlay},
+            img = #{img},
+            phone_number = #{phoneNumber},
+            password = #{password},
+            is_active = #{isActive},
+            role_id = #{roles}
+        WHERE user_id = #{userId}
+    </update>
+
+
+
+</mapper>
