@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.teacher.mapper.TeacherMapper">
+    <!-- Map the result to the TeacherE class -->
+    <resultMap id="TeacherEMap" type="com.example.teacher.entity.TeacherE">
+        <id property="idTeacher" column="idTeacher" />
+        <result property="nameTeacher" column="nameTeacher" />
+        <result property="maTeacher" column="maTeacher" />
+        <result property="idUser" column="idUser" />
+    </resultMap>
+
+    <!-- Select all teachers -->
+    <select id="getAllTeacher" resultMap="TeacherEMap">
+        SELECT idTeacher, nameTeacher, maTeacher, idUser
+        FROM teacher
+    </select>
+
+    <select id="kiemTraTonTaiTeacher" resultType="boolean"
+            parameterType="com.example.teacher.dto.TeacherDto">
+        SELECT EXISTS (SELECT 1
+                       FROM teacher t
+                       WHERE 1 = 1
+                         AND t.maTeacher = #{maTeacher})
+    </select>
+
+    <insert id="insertTeacher" parameterType="com.example.teacher.entity.TeacherE">
+        INSERT INTO teacher ( nameTeacher, maTeacher, idUser)
+        VALUES (#{nameTeacher}, #{maTeacher}, #{idUser})
+    </insert>
+
+    <!-- Update a teacher -->
+    <update id="updateTeacher" parameterType="com.example.teacher.entity.TeacherE">
+        UPDATE teacher
+        SET nameTeacher = #{nameTeacher},
+            maTeacher = #{maTeacher},
+            idUser = #{idUser}
+        WHERE idTeacher = #{idTeacher}
+    </update>
+
+
+</mapper>
