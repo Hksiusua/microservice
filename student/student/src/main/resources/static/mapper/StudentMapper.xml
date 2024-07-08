@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.student.mapper.StudentMapper">
+
+    <resultMap id="studentEMap" type="com.example.student.entity.StudentE">
+        <id property="idStudent" column="idStudent"/>
+        <result property="nameStudent" column="nameStudent"/>
+        <result property="maStudent" column="maStudent"/>
+        <result property="idUser" column="idUser"/>
+    </resultMap>
+    <select id="getAllUsers" resultMap="studentEMap" parameterType="com.example.student.dto.StudentDto">
+        SELECT s.idStudent,s.nameStudent, s.maStudent, s.idUser FROM student s
+        where 1=1
+        <if test="nameStudent != null">
+            AND s.nameStudent = #{nameStudent}
+        </if>
+        <if test="maStudent != null and maStudent != ''">
+            AND s.maStudent = #{maStudent}
+        </if>
+
+    </select>
+
+    <!--    insert-->
+    <select id="kiemTraTonTaiUser" resultType="boolean"
+            parameterType="com.example.student.dto.StudentDto">
+        SELECT EXISTS (SELECT 1
+                       FROM student u
+                       WHERE 1 = 1
+                         AND u.maStudent = #{maStudent})
+    </select>
+
+    <insert id="insertStudent" parameterType="com.example.student.dto.StudentDto">
+        INSERT INTO student (nameStudent, maStudent, idUser)
+        VALUES (#{nameStudent}, #{maStudent}, #{idUser})
+    </insert>
+
+
+    <update id="updateStudent" parameterType="com.example.student.dto.StudentDto">
+        UPDATE student
+        SET nameStudent = #{nameStudent},
+            maStudent   = #{maStudent},
+            idUser      = #{idUser}
+        WHERE maStudent = #{maStudent}
+    </update>
+</mapper>
